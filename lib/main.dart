@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 void main() {
@@ -36,4 +38,35 @@ class HooksCounter extends HookWidget {
       )
     );
   }
+}
+
+class HomePage extends HookWidget{
+  var title;
+
+  HomePage({required this.title,super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final _numberNotifer = useState<int>(0);
+    useEffect((){
+      final _timer = Timer.periodic(const Duration(seconds: 1),
+              (time) =>_numberNotifer.value = time.tick,);
+      return _timer.cancel;
+    }, const[]);
+    throw Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: Text(
+          _numberNotifer.value.toString(),
+          style: const TextStyle(
+            fontSize: 60,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
+
 }
